@@ -77,6 +77,24 @@ static NSString *const MessageHanderName = @"ReactNative";
   return self;
 }
 
+static NSString *rexKey1 = @"ContentBlockingRules";
+
+- ( NSString * ) contentBlockingRules
+{
+    return @" \
+    [ \
+    { \
+    \"trigger\": { \
+    \"url-filter\": \".*\", \
+    \"resource-type\": [\"image\", \"font\", \"media\", \"style-sheet\"] \
+    }, \
+    \"action\": { \
+    \"type\": \"block\" \
+    } \
+    } \
+    ]";
+}
+
 - (void)didMoveToWindow
 {
   if (self.window != nil && _webView == nil) {
@@ -110,9 +128,28 @@ static NSString *const MessageHanderName = @"ReactNative";
     }
 #endif
 
-    [self addSubview:_webView];
+      if (_disableAssets && @available(iOS 11.0, *)) {
+          [WKContentRuleListStore.defaultStore compileContentRuleListForIdentifier: rexKey1 encodedContentRuleList: [self contentBlockingRules] completionHandler: ^(WKContentRuleList *contentRuleList, NSError *err) {
+              
+              if (err != nil) {
+                  NSLog(@"Error on content rule list not compiled");
+              }
+              
+              if (contentRuleList) {
+                  [self->_webView.configuration.userContentController addContentRuleList: contentRuleList];
+                  [NSUserDefaults.standardUserDefaults setObject: @YES forKey: rexKey1];
+                  [self addSubview:self->_webView];
+                  [self visitSource];
+              }
+          }];
+      } else {
+          // Fallback on earlier versions
+          [self addSubview:_webView];
+          
+          [self visitSource];
+      }
+
     [self setHideKeyboardAccessoryView: _savedHideKeyboardAccessoryView];
-    [self visitSource];
   } else {
     [_webView.configuration.userContentController removeScriptMessageHandlerForName:MessageHanderName];
   }

@@ -130,6 +130,7 @@ class WebView extends React.Component<WebViewSharedProps, State> {
 
   static defaultProps = {
     useWebKit: true,
+    disableAssets: false,
     originWhitelist: WebViewShared.defaultOriginWhitelist,
   };
 
@@ -263,6 +264,7 @@ class WebView extends React.Component<WebViewSharedProps, State> {
         source={resolveAssetSource(source)}
         injectedJavaScript={this.props.injectedJavaScript}
         bounces={this.props.bounces}
+        disableAssets={this.props.disableAssets}
         scrollEnabled={this.props.scrollEnabled}
         decelerationRate={decelerationRate}
         contentInset={this.props.contentInset}

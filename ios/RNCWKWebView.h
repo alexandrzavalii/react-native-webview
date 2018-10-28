@@ -14,29 +14,30 @@
 @protocol RNCWKWebViewDelegate <NSObject>
 
 - (BOOL)webView:(RNCWKWebView *)webView
-shouldStartLoadForRequest:(NSMutableDictionary<NSString *, id> *)request
-   withCallback:(RCTDirectEventBlock)callback;
+    shouldStartLoadForRequest:(NSMutableDictionary<NSString *, id> *)request
+                 withCallback:(RCTDirectEventBlock)callback;
 
 @end
 
 @interface RNCWKWebView : RCTView
 
-@property (nonatomic, weak) id<RNCWKWebViewDelegate> delegate;
-@property (nonatomic, copy) NSDictionary *source;
-@property (nonatomic, assign) BOOL messagingEnabled;
-@property (nonatomic, copy) NSString *injectedJavaScript;
-@property (nonatomic, assign) BOOL scrollEnabled;
-@property (nonatomic, assign) CGFloat decelerationRate;
-@property (nonatomic, assign) BOOL allowsInlineMediaPlayback;
-@property (nonatomic, assign) BOOL bounces;
-@property (nonatomic, assign) BOOL mediaPlaybackRequiresUserAction;
+@property(nonatomic, weak) id<RNCWKWebViewDelegate> delegate;
+@property(nonatomic, copy) NSDictionary *source;
+@property(nonatomic, assign) BOOL messagingEnabled;
+@property(nonatomic, copy) NSString *injectedJavaScript;
+@property(nonatomic, assign) BOOL scrollEnabled;
+@property(nonatomic, assign) CGFloat decelerationRate;
+@property(nonatomic, assign) BOOL allowsInlineMediaPlayback;
+@property(nonatomic, assign) BOOL bounces;
+@property(nonatomic, assign) BOOL disableAssets;
+@property(nonatomic, assign) BOOL mediaPlaybackRequiresUserAction;
 #if WEBKIT_IOS_10_APIS_AVAILABLE
-@property (nonatomic, assign) WKDataDetectorTypes dataDetectorTypes;
+@property(nonatomic, assign) WKDataDetectorTypes dataDetectorTypes;
 #endif
-@property (nonatomic, assign) UIEdgeInsets contentInset;
-@property (nonatomic, assign) BOOL automaticallyAdjustContentInsets;
-@property (nonatomic, assign) BOOL hideKeyboardAccessoryView;
-@property (nonatomic, assign) BOOL allowsBackForwardNavigationGestures;
+@property(nonatomic, assign) UIEdgeInsets contentInset;
+@property(nonatomic, assign) BOOL automaticallyAdjustContentInsets;
+@property(nonatomic, assign) BOOL hideKeyboardAccessoryView;
+@property(nonatomic, assign) BOOL allowsBackForwardNavigationGestures;
 
 - (void)postMessage:(NSString *)message;
 - (void)injectJavaScript:(NSString *)script;
