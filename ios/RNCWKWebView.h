@@ -21,6 +21,8 @@
 
 @interface RNCWKWebView : RCTView
 
+-(instancetype)initWithProcessPool:(WKProcessPool *)processPool;
+
 @property(nonatomic, weak) id<RNCWKWebViewDelegate> delegate;
 @property(nonatomic, copy) NSDictionary *source;
 @property(nonatomic, assign) BOOL messagingEnabled;

@@ -10,6 +10,7 @@
 #import <React/RCTUIManager.h>
 #import <React/RCTDefines.h>
 #import "RNCWKWebView.h"
+#import "WKProcessPool+SharedProcessPool.h"
 
 @interface RNCWKWebViewManager () <RNCWKWebViewDelegate>
 @end
@@ -17,24 +18,14 @@
 @implementation RNCWKWebViewManager
 {
   NSConditionLock *_shouldStartLoadLock;
-  WKProcessPool *_processPool;
   BOOL _shouldStartLoad;
 }
 
 RCT_EXPORT_MODULE()
 
-- (id)init {
-  if (self = [super init]) {
-    _processPool = [[WKProcessPool alloc] init];
-  }
-    
-  return self;
-}
-
-- (UIView *)view
+-(UIView *)view
 {
-  RNCWKWebView *webView = [[RNCWKWebView alloc] initWithProcessPool:_processPool];
-
+  RNCWKWebView *webView = [[RNCWKWebView alloc] initWithProcessPool:[WKProcessPool sharedProcessPool]];
   webView.delegate = self;
   return webView;
 }
