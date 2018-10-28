@@ -17,14 +17,24 @@
 @implementation RNCWKWebViewManager
 {
   NSConditionLock *_shouldStartLoadLock;
+  WKProcessPool *_processPool;
   BOOL _shouldStartLoad;
 }
 
 RCT_EXPORT_MODULE()
 
+- (id)init {
+  if (self = [super init]) {
+    _processPool = [[WKProcessPool alloc] init];
+  }
+    
+  return self;
+}
+
 - (UIView *)view
 {
-  RNCWKWebView *webView = [RNCWKWebView new];
+  RNCWKWebView *webView = [[RNCWKWebView alloc] initWithProcessPool:_processPool];
+
   webView.delegate = self;
   return webView;
 }
